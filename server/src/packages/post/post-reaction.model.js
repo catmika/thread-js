@@ -18,10 +18,11 @@ class PostReactionModel extends AbstractModel {
 
     return {
       type: baseSchema.type,
-      required: ['isLike', 'userId', 'postId'],
+      required: ['isLike', 'isDislike', 'userId', 'postId'],
       properties: {
         ...baseSchema.properties,
         isLike: { type: 'boolean' },
+        isDislike: { type: 'boolean' },
         postId: { type: ['integer', 'null'] },
         userId: { type: ['integer', 'null'] }
       }

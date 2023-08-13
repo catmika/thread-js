@@ -33,7 +33,7 @@ class Post {
     });
   }
 
-  likePost(postId) {
+  reactPost(postId, isLike, isDislike) {
     return this._http.load(
       `${this._apiPath}${ApiPath.POSTS}${PostsApiPath.REACT}`,
       {
@@ -41,7 +41,22 @@ class Post {
         contentType: ContentType.JSON,
         payload: JSON.stringify({
           postId,
-          isLike: true
+          isLike,
+          isDislike
+        })
+      }
+    );
+  }
+  dislikePost(postId) {
+    return this._http.load(
+      `${this._apiPath}${ApiPath.POSTS}${PostsApiPath.REACT}`,
+      {
+        method: HttpMethod.PUT,
+        contentType: ContentType.JSON,
+        payload: JSON.stringify({
+          postId,
+          isLike: false,
+          isDislike: true
         })
       }
     );
