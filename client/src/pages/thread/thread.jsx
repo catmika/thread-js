@@ -67,7 +67,7 @@ const Thread = () => {
     handlePostsLoad(postsFilter);
   }, [handlePostsLoad, postsFilter]);
 
-  const handlePostReaction = useCallback(
+  const handlePostReact = useCallback(
     (postId, isLike, isDislike) =>
       dispatch(threadActionCreator.reactPost({ postId, isLike, isDislike })),
     [dispatch]
@@ -123,7 +123,7 @@ const Thread = () => {
           {posts.map(post => (
             <Post
               post={post}
-              onPostReaction={handlePostReaction}
+              onPostReact={handlePostReact}
               onExpandedPostToggle={handleExpandedPostToggle}
               onSharePost={handleSharePost}
               key={post.id}

@@ -10,7 +10,7 @@ import { IconButton } from '../icon-button/icon-button.jsx';
 import { Image } from '../image/image.jsx';
 import styles from './styles.module.scss';
 
-const Post = ({ post, onPostReaction, onExpandedPostToggle, onSharePost }) => {
+const Post = ({ post, onPostReact, onExpandedPostToggle, onSharePost }) => {
   const {
     id,
     image,
@@ -23,9 +23,9 @@ const Post = ({ post, onPostReaction, onExpandedPostToggle, onSharePost }) => {
   } = post;
   const date = getFromNowTime(createdAt);
 
-  const handlePostReaction = useCallback(
-    (isLike, isDislike) => onPostReaction(id, isLike, isDislike),
-    [id, onPostReaction]
+  const handlePostReact = useCallback(
+    (isLike, isDislike) => onPostReact(id, isLike, isDislike),
+    [id, onPostReact]
   );
 
   const handleExpandedPostToggle = useCallback(
@@ -47,12 +47,12 @@ const Post = ({ post, onPostReaction, onExpandedPostToggle, onSharePost }) => {
         <IconButton
           iconName={IconName.THUMBS_UP}
           label={likeCount}
-          onClick={() => handlePostReaction(true, false)}
+          onClick={() => handlePostReact(true, false)}
         />
         <IconButton
           iconName={IconName.THUMBS_DOWN}
           label={dislikeCount}
-          onClick={() => handlePostReaction(false, true)}
+          onClick={() => handlePostReact(false, true)}
         />
         <IconButton
           iconName={IconName.COMMENT}
@@ -70,7 +70,7 @@ const Post = ({ post, onPostReaction, onExpandedPostToggle, onSharePost }) => {
 
 Post.propTypes = {
   post: postType.isRequired,
-  onPostReaction: PropTypes.func.isRequired,
+  onPostReact: PropTypes.func.isRequired,
   onExpandedPostToggle: PropTypes.func.isRequired,
   onSharePost: PropTypes.func.isRequired
 };
