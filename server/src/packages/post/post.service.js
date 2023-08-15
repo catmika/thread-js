@@ -8,6 +8,10 @@ class PostService {
     return this._postRepository.getPosts(filter);
   }
 
+  getPostReaction(userId, postId) {
+    return this._postReactionRepository.getPostReaction(userId, postId);
+  }
+
   getById(id) {
     return this._postRepository.getPostById(id);
   }
