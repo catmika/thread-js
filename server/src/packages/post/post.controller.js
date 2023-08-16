@@ -53,19 +53,39 @@ class PostController extends Controller {
   };
 
   react = async request => {
-    const reaction = await this.#postService.setReaction(
-      request.user.id,
-      request.body
+    const userId = request.user.id;
+    const { postId, isLike, isDislike } = request.body;
+    const post = await this.#postService.getById(postId);
+    const existingReaction = await this.#postService.getPostReaction(
+      userId,
+      postId
     );
 
-    if (reaction.post && reaction.post.userId !== request.user.id) {
-      // notify a user if someone (not himself) liked his post
+    const reactionResult = await this.#postService.setReaction(userId, {
+      postId,
+      isLike,
+      isDislike
+    });
+
+    if (
+      ((isLike && !existingReaction?.isLike) ||
+        (isDislike && !existingReaction?.isDislike)) &&
+      post.userId !== userId
+    ) {
+      const eventType = isLike
+        ? NotificationSocketEvent.LIKE_POST
+        : NotificationSocketEvent.DISLIKE_POST;
+
       request.io
         .of(SocketNamespace.NOTIFICATION)
-        .to(`${reaction.post.userId}`)
-        .emit(NotificationSocketEvent.LIKE_POST);
+        .to(`${post.userId}`)
+        .emit(eventType, {
+          postId: post.id,
+          likeCount: reactionResult.likeCount,
+          dislikeCount: reactionResult.dislikeCount
+        });
     }
-    return reaction;
+    return reactionResult;
   };
 }
 
