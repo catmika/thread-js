@@ -44,7 +44,7 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  isCentered: false
+  isCentered: true
 };
 
 export { Modal };

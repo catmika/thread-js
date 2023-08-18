@@ -1,0 +1,23 @@
+.imageWrapper {
+  margin-bottom: 10px;
+}
+
+.image {
+  width: auto;
+  max-width: 150px;
+  max-height: 150px;
+}
+
+.btnWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.imgBtnWrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.btnImgLabel {
+  margin: 0 0 0 10px;
+}

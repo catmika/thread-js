@@ -4,6 +4,7 @@
   box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
   margin-bottom: 1rem;
   width: 100%;
+  position: relative;
 
   img {
     height: auto;
@@ -26,5 +27,17 @@
   .extra {
     border-top: 1px solid rgba(0 0 0 / 5%);
     padding: 1rem;
+
+    .buttonTopRightWrapper {
+      position: absolute;
+      top: 0.7rem;
+      right: 0.5rem;
+    }
+
+    .buttonWrapperWithImage {
+      position: absolute;
+      bottom: 6.3rem;
+      right: 0.5rem;
+    }
   }
 }

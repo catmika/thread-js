@@ -6,6 +6,7 @@ import {
   faFrown,
   faImage,
   faLock,
+  faPenToSquare,
   faShareAlt,
   faSignOutAlt,
   faThumbsDown,
@@ -29,7 +30,8 @@ const iconNameToSvgIcon = {
   [IconName.THUMBS_UP]: faThumbsUp,
   [IconName.THUMBS_DOWN]: faThumbsDown,
   [IconName.USER]: faUser,
-  [IconName.USER_CIRCLE]: faUserCircle
+  [IconName.USER_CIRCLE]: faUserCircle,
+  [IconName.PEN_TO_SQUARE]: faPenToSquare
 };
 
 export { iconNameToSvgIcon };

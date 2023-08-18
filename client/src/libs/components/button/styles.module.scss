@@ -38,6 +38,11 @@
     background-color: var(--blue);
   }
 
+  &__red {
+    color: var(--white);
+    background-color: var(--red);
+  }
+
   &.loading {
     position: relative;
     cursor: default;

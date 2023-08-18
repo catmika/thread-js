@@ -123,6 +123,7 @@ const Thread = () => {
           {posts.map(post => (
             <Post
               post={post}
+              userId={userId}
               onPostReact={handlePostReact}
               onExpandedPostToggle={handleExpandedPostToggle}
               onSharePost={handleSharePost}
