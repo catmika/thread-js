@@ -23,6 +23,10 @@ class PostService {
     });
   }
 
+  update(postId, post) {
+    return this._postRepository.updateById(postId, post);
+  }
+
   async setReaction(userId, { postId, isLike = true, isDislike = false }) {
     if (isLike && isDislike) {
       throw new Error('Cannot set both isLike and isDislike to true.');

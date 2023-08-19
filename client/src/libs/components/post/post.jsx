@@ -93,6 +93,7 @@ const Post = ({
         setIsUpdatePost={setIsUpdatePost}
         currentBody={body}
         currentImage={image}
+        id={id}
       />
     </div>
   );

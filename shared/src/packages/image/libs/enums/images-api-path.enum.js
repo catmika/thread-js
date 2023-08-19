@@ -1,5 +1,6 @@
 const ImagesApiPath = {
-  ROOT: '/'
+  ROOT: '/',
+  $ID: '/:id'
 };
 
 export { ImagesApiPath };

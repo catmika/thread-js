@@ -19,6 +19,12 @@ class Image {
       payload: formData
     });
   }
+
+  deleteImage(imageId) {
+    return this._http.load(`${this._apiPath}${ApiPath.IMAGES}/${imageId}`, {
+      method: HttpMethod.DELETE
+    });
+  }
 }
 
 export { Image };

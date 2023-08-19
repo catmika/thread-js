@@ -8,7 +8,8 @@ import {
   loadMorePosts,
   loadPosts,
   reactPost,
-  toggleExpandedPost
+  toggleExpandedPost,
+  updatePost
 } from './actions.js';
 
 const initialState = {
@@ -55,12 +56,15 @@ const { reducer, actions, name } = createSlice({
       }
     );
     builder.addMatcher(
-      isAnyOf(applyPost.fulfilled, createPost.fulfilled),
+      isAnyOf(applyPost.fulfilled, createPost.fulfilled, updatePost.fulfilled),
       (state, action) => {
         const { post } = action.payload;
 
         if (post) {
-          state.posts = [post, ...state.posts];
+          const existingIndex = state.posts.findIndex(p => p.id === post.id);
+          existingIndex === -1
+            ? (state.posts = [post, ...state.posts])
+            : (state.posts[existingIndex] = post);
         }
       }
     );

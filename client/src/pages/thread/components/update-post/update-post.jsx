@@ -6,23 +6,28 @@ import { Image } from '~/libs/components/image/image.jsx';
 import { Input } from '~/libs/components/input/input.jsx';
 import { Modal } from '~/libs/components/modal/modal.jsx';
 import { ButtonColor, ButtonType, IconName } from '~/libs/enums/enums.js';
-import { useAppForm } from '~/libs/hooks/hooks.js';
+import { useAppForm, useDispatch } from '~/libs/hooks/hooks.js';
 import { image as imageService } from '~/packages/image/image.js';
+import { actions as threadActionCreator } from '~/slices/thread/thread.js';
 
 import { PostPayloadKey } from '../../../../../../shared/src/packages/post/post.js';
 import styles from './styles.module.scss';
 
 const handleUploadImage = file => imageService.uploadImage(file);
+const handleDeleteImage = fileId => imageService.deleteImage(fileId);
 
 const UpdatePost = ({
   isUpdatePost,
   setIsUpdatePost,
   currentBody,
-  currentImage
+  currentImage,
+  id
 }) => {
   const { control, handleSubmit } = useAppForm({
     defaultValues: { [PostPayloadKey.BODY]: currentBody }
   });
+
+  const dispatch = useDispatch();
 
   const [image, setImage] = useState({});
   const [isUploading, setIsUploading] = useState(false);
@@ -40,7 +45,27 @@ const UpdatePost = ({
     setIsUpdatePost(false);
   }, [setIsUpdatePost]);
 
-  const handleUpdatePost = useCallback(() => {});
+  const onPostUpdate = useCallback(
+    (postId, postPayload) =>
+      dispatch(threadActionCreator.updatePost(postId, postPayload)),
+    [dispatch]
+  );
+
+  const handleUpdatePost = useCallback(
+    values => {
+      if (!values.body) {
+        return;
+      }
+
+      onPostUpdate({
+        id,
+        post: { imageId: image?.imageId, body: values.body }
+      }).then(() => {
+        setIsUpdatePost(false);
+      });
+    },
+    [image, onPostUpdate, id, setIsUpdatePost]
+  );
 
   const handleUploadFile = useCallback(
     ({ target }) => {
@@ -60,6 +85,20 @@ const UpdatePost = ({
     },
     [setIsUploading]
   );
+
+  const handleDeleteFile = useCallback(() => {
+    setIsUploading(true);
+    handleDeleteImage(currentImage?.id)
+      .then(() => {
+        setImage({});
+      })
+      .catch(() => {
+        // TODO: show error
+      })
+      .finally(() => {
+        setIsUploading(false);
+      });
+  }, [setImage, currentImage?.id]);
 
   return (
     <Modal isOpen={isUpdatePost} isCentered onClose={handleIsUpdatePost}>
@@ -101,6 +140,7 @@ const UpdatePost = ({
               color={ButtonColor.RED}
               isLoading={isUploading}
               isDisabled={isUploading}
+              onClick={handleDeleteFile}
             >
               Delete image
             </Button>
@@ -123,7 +163,8 @@ UpdatePost.propTypes = {
   isUpdatePost: PropTypes.bool.isRequired,
   setIsUpdatePost: PropTypes.func.isRequired,
   currentBody: PropTypes.string.isRequired,
-  currentImage: PropTypes.object
+  currentImage: PropTypes.object,
+  id: PropTypes.number.isRequired
 };
 
 export { UpdatePost };
