@@ -1,3 +1,5 @@
+import { HttpCode } from '#libs/packages/http/http.js';
+
 class PostService {
   constructor({ postRepository, postReactionRepository }) {
     this._postRepository = postRepository;
@@ -23,8 +25,22 @@ class PostService {
     });
   }
 
-  update(postId, post) {
-    return this._postRepository.updateById(postId, post);
+  async update(postId, post, userId) {
+    const existingPost = await this._postRepository.getById(postId);
+
+    if (!existingPost) {
+      throw new Error(`Post with id ${postId} not found.`);
+    }
+
+    if (existingPost.userId !== userId) {
+      const error = new Error(
+        'You do not have permission to update this post.'
+      );
+      error.status = HttpCode.FORBIDDEN;
+      throw error;
+    }
+
+    return await this._postRepository.updateById(postId, post);
   }
 
   async setReaction(userId, { postId, isLike = true, isDislike = false }) {

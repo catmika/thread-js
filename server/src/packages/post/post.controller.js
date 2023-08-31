@@ -60,7 +60,8 @@ class PostController extends Controller {
   update = async (request, response) => {
     const post = await this.#postService.update(
       request.params.id,
-      request.body
+      request.body,
+      request.body.userId
     );
 
     return response.status(HttpCode.OK).send(post);

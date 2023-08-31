@@ -64,8 +64,8 @@ const createPost = createAsyncThunk(
 
 const updatePost = createAsyncThunk(
   ActionType.ADD_POST,
-  async ({ id, post }, { extra: { services } }) => {
-    const newPost = await services.post.updatePost(id, post);
+  async ({ id, post, userId }, { extra: { services } }) => {
+    const newPost = await services.post.updatePost(id, post, userId);
     return { updatedPost: newPost };
   }
 );

@@ -21,7 +21,8 @@ const UpdatePost = ({
   setIsUpdatePost,
   currentBody,
   currentImage,
-  id
+  id,
+  userId
 }) => {
   const { control, handleSubmit } = useAppForm({
     defaultValues: { [PostPayloadKey.BODY]: currentBody }
@@ -46,8 +47,8 @@ const UpdatePost = ({
   }, [setIsUpdatePost]);
 
   const onPostUpdate = useCallback(
-    (postId, postPayload) =>
-      dispatch(threadActionCreator.updatePost(postId, postPayload)),
+    (postId, postPayload, userId) =>
+      dispatch(threadActionCreator.updatePost(postId, postPayload, userId)),
     [dispatch]
   );
 
@@ -59,12 +60,13 @@ const UpdatePost = ({
 
       onPostUpdate({
         id,
-        post: { imageId: image?.imageId, body: values.body }
+        post: { imageId: image?.imageId, body: values.body },
+        userId
       }).then(() => {
         setIsUpdatePost(false);
       });
     },
-    [image, onPostUpdate, id, setIsUpdatePost]
+    [image, onPostUpdate, id, setIsUpdatePost, userId]
   );
 
   const handleUploadFile = useCallback(
@@ -164,7 +166,8 @@ UpdatePost.propTypes = {
   setIsUpdatePost: PropTypes.func.isRequired,
   currentBody: PropTypes.string.isRequired,
   currentImage: PropTypes.object,
-  id: PropTypes.number.isRequired
+  id: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired
 };
 
 export { UpdatePost };

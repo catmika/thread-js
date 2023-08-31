@@ -94,6 +94,7 @@ const Post = ({
         currentBody={body}
         currentImage={image}
         id={id}
+        userId={userId}
       />
     </div>
   );

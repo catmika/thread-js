@@ -33,7 +33,9 @@ class Post {
     });
   }
 
-  updatePost(id, payload) {
+  updatePost(id, payload, userId) {
+    payload.userId = userId;
+
     return this._http.load(
       `${this._apiPath}${ApiPath.POSTS}${PostsApiPath.ROOT}${id}`,
       {
