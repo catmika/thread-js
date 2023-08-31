@@ -105,7 +105,7 @@ Post.propTypes = {
   onPostReact: PropTypes.func.isRequired,
   onExpandedPostToggle: PropTypes.func.isRequired,
   onSharePost: PropTypes.func.isRequired,
-  userId: PropTypes.number.isRequired
+  userId: PropTypes.number
 };
 
 export { Post };

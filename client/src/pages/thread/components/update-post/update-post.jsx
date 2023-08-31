@@ -167,7 +167,7 @@ UpdatePost.propTypes = {
   currentBody: PropTypes.string.isRequired,
   currentImage: PropTypes.object,
   id: PropTypes.number.isRequired,
-  userId: PropTypes.number.isRequired
+  userId: PropTypes.number
 };
 
 export { UpdatePost };
