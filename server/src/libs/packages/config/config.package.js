@@ -96,6 +96,12 @@ class Config {
           env: 'GYAZO_UPLOAD_API_URL',
           default: null
         },
+        DELETE_API_URL: {
+          doc: 'Gyazo delete api url',
+          format: String,
+          env: 'GYAZO_DELETE_API_URL',
+          default: null
+        },
         FILE_SIZE: 10_000_000
       }
     });

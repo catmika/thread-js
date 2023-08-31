@@ -34,6 +34,11 @@ class PostController extends Controller {
     });
     this.addRoute({
       method: HttpMethod.PUT,
+      url: PostsApiPath.$ID,
+      [ControllerHook.HANDLER]: this.update
+    });
+    this.addRoute({
+      method: HttpMethod.PUT,
       url: PostsApiPath.REACT,
       [ControllerHook.HANDLER]: this.react
     });
@@ -43,13 +48,23 @@ class PostController extends Controller {
 
   getById = request => this.#postService.getById(request.params.id);
 
-  create = async (request, reply) => {
+  create = async (request, response) => {
     const post = await this.#postService.create(request.user.id, request.body);
 
     request.io
       .of(SocketNamespace.NOTIFICATION)
       .emit(NotificationSocketEvent.NEW_POST, post); // notify all users that a new post was created
-    return reply.status(HttpCode.CREATED).send(post);
+    return response.status(HttpCode.CREATED).send(post);
+  };
+
+  update = async (request, response) => {
+    const post = await this.#postService.update(
+      request.params.id,
+      request.body,
+      request.body.userId
+    );
+
+    return response.status(HttpCode.OK).send(post);
   };
 
   react = async request => {

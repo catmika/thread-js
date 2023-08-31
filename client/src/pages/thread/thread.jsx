@@ -123,6 +123,7 @@ const Thread = () => {
           {posts.map(post => (
             <Post
               post={post}
+              userId={userId}
               onPostReact={handlePostReact}
               onExpandedPostToggle={handleExpandedPostToggle}
               onSharePost={handleSharePost}
@@ -131,7 +132,9 @@ const Thread = () => {
           ))}
         </InfiniteScroll>
       </div>
-      {expandedPost && <ExpandedPost onSharePost={handleSharePost} />}
+      {expandedPost && (
+        <ExpandedPost onSharePost={handleSharePost} userId={userId} />
+      )}
       {sharedPostId && (
         <SharedPostLink
           postId={sharedPostId}

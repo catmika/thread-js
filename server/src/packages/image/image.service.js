@@ -29,6 +29,31 @@ class ImageService {
 
     return this._imageRepository.create({ link: response.url });
   }
+
+  async delete(imageId) {
+    const formData = new FormData();
+    formData.append('access_token', this._config.ENV.GYAZO.ACCESS_KEY);
+
+    const image = await this._imageRepository.getById(imageId);
+    const parts = image.link.split('/');
+    const imageUrlId = parts.at(-1).split('.')[0];
+
+    if (!image) {
+      throw new Error(`Image with id ${imageId} not found.`);
+    }
+
+    const response = await this._httpService.load(
+      `${this._config.ENV.GYAZO.DELETE_API_URL}/${imageUrlId}`,
+      {
+        method: HttpMethod.DELETE,
+        data: formData,
+        headers: formData.getHeaders()
+      }
+    );
+    await this._imageRepository.deleteById(imageId);
+
+    return response;
+  }
 }
 
 export { ImageService };

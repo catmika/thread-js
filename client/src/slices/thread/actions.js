@@ -62,6 +62,14 @@ const createPost = createAsyncThunk(
   }
 );
 
+const updatePost = createAsyncThunk(
+  ActionType.ADD_POST,
+  async ({ id, post, userId }, { extra: { services } }) => {
+    const newPost = await services.post.updatePost(id, post, userId);
+    return { updatedPost: newPost };
+  }
+);
+
 const toggleExpandedPost = createAsyncThunk(
   ActionType.SET_EXPANDED_POST,
   async (postId, { extra: { services } }) => {
@@ -133,5 +141,6 @@ export {
   loadMorePosts,
   loadPosts,
   reactPost,
-  toggleExpandedPost
+  toggleExpandedPost,
+  updatePost
 };

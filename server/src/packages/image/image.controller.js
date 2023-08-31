@@ -20,9 +20,15 @@ class ImageController extends Controller {
       [ControllerHook.PRE_HANDLER]: upload.single('image'),
       [ControllerHook.HANDLER]: this.upload
     });
+    this.addRoute({
+      method: HttpMethod.DELETE,
+      url: ImagesApiPath.$ID,
+      [ControllerHook.HANDLER]: this.delete
+    });
   }
 
   upload = request => this.#imageService.upload(request.file);
+  delete = request => this.#imageService.delete(request.params.id);
 }
 
 export { ImageController };
