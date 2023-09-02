@@ -5,6 +5,7 @@ import {
   addComment,
   applyPost,
   createPost,
+  deletePost,
   loadMorePosts,
   loadPosts,
   reactPost,
@@ -46,6 +47,10 @@ const { reducer, actions, name } = createSlice({
       const { post } = action.payload;
 
       state.expandedPost = post;
+    });
+    builder.addCase(deletePost.fulfilled, (state, action) => {
+      const { deletedPost } = action.payload;
+      state.posts = state.posts.filter(post => post.id !== deletedPost.id);
     });
     builder.addMatcher(
       isAnyOf(reactPost.fulfilled, addComment.fulfilled),

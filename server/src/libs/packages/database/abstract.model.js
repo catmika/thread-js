@@ -7,7 +7,8 @@ class Abstract extends Model {
       properties: {
         id: { type: 'integer' },
         createdAt: { type: 'string' },
-        updatedAt: { type: 'string' }
+        updatedAt: { type: 'string' },
+        deleteAt: { type: 'string' }
       }
     };
   }

@@ -12,7 +12,8 @@ const IconName = {
   THUMBS_DOWN: 'thumbs down',
   USER: 'user',
   USER_CIRCLE: 'user circle',
-  PEN_TO_SQUARE: 'pen to square'
+  PEN_TO_SQUARE: 'pen to square',
+  DELETE: 'delete'
 };
 
 export { IconName };

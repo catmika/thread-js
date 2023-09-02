@@ -46,6 +46,19 @@ class Post {
     );
   }
 
+  deletePost(id, userId) {
+    return this._http.load(
+      `${this._apiPath}${ApiPath.POSTS}${PostsApiPath.ROOT}${id}`,
+      {
+        method: HttpMethod.PATCH,
+        contentType: ContentType.JSON,
+        payload: JSON.stringify({
+          userId
+        })
+      }
+    );
+  }
+
   reactPost(postId, isLike, isDislike) {
     return this._http.load(
       `${this._apiPath}${ApiPath.POSTS}${PostsApiPath.REACT}`,

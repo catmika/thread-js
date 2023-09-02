@@ -11,6 +11,7 @@ import {
   faSignOutAlt,
   faThumbsDown,
   faThumbsUp,
+  faTrash,
   faUser,
   faUserCircle
 } from '@fortawesome/free-solid-svg-icons';
@@ -31,7 +32,8 @@ const iconNameToSvgIcon = {
   [IconName.THUMBS_DOWN]: faThumbsDown,
   [IconName.USER]: faUser,
   [IconName.USER_CIRCLE]: faUserCircle,
-  [IconName.PEN_TO_SQUARE]: faPenToSquare
+  [IconName.PEN_TO_SQUARE]: faPenToSquare,
+  [IconName.DELETE]: faTrash
 };
 
 export { iconNameToSvgIcon };

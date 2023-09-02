@@ -6,6 +6,7 @@ import { IconName } from '~/libs/enums/enums.js';
 import { getFromNowTime } from '~/libs/helpers/helpers.js';
 import { useCallback } from '~/libs/hooks/hooks.js';
 import { postType } from '~/libs/prop-types/property-types.js';
+import { DeletePost } from '~/pages/thread/components/delete-post/delete-post.jsx';
 import { UpdatePost } from '~/pages/thread/components/update-post/update-post.jsx';
 
 import { IconButton } from '../icon-button/icon-button.jsx';
@@ -43,6 +44,7 @@ const Post = ({
   const handleSharePost = useCallback(() => onSharePost(id), [id, onSharePost]);
 
   const [isUpdatePost, setIsUpdatePost] = useState(false);
+  const [isDeletePost, setIsDeletePost] = useState(false);
 
   return (
     <div className={styles.card}>
@@ -74,18 +76,34 @@ const Post = ({
           onClick={handleSharePost}
         />
         {user.id === userId && (
-          <div
-            className={
-              image
-                ? styles.buttonWrapperWithImage
-                : styles.buttonTopRightWrapper
-            }
-          >
-            <IconButton
-              iconName={IconName.PEN_TO_SQUARE}
-              onClick={() => setIsUpdatePost(true)}
-            />
-          </div>
+          <>
+            <div
+              className={
+                image
+                  ? styles.editButtonWrapperWithImage
+                  : styles.editButtonTopRightWrapper
+              }
+            >
+              <IconButton
+                iconName={IconName.PEN_TO_SQUARE}
+                onClick={() => setIsUpdatePost(true)}
+              />
+            </div>
+            <div
+              className={
+                image
+                  ? styles.deleteButtonWrapperWithImage
+                  : styles.deleteButtonTopRightWrapper
+              }
+            >
+              <IconButton
+                iconName={IconName.DELETE}
+                onClick={() => {
+                  setIsDeletePost(true);
+                }}
+              />
+            </div>
+          </>
         )}
       </div>
       <UpdatePost
@@ -95,6 +113,13 @@ const Post = ({
         currentImage={image}
         id={id}
         userId={userId}
+      />
+      <DeletePost
+        isDeletePost={isDeletePost}
+        setIsDeletePost={setIsDeletePost}
+        id={id}
+        userId={userId}
+        onExpandedPostToggle={onExpandedPostToggle}
       />
     </div>
   );

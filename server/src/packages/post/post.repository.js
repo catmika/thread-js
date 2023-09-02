@@ -23,6 +23,7 @@ class PostRepository extends AbstractRepository {
         getReactionsQuery(this.model)(false)
       )
       .where(getWhereUserIdQuery(userId))
+      .whereNull('deletedAt')
       .withGraphFetched('[image, user.image]')
       .orderBy('createdAt', 'desc')
       .offset(offset)
