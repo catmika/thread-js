@@ -28,13 +28,25 @@
     border-top: 1px solid rgba(0 0 0 / 5%);
     padding: 1rem;
 
-    .buttonTopRightWrapper {
+    .editButtonTopRightWrapper {
+      position: absolute;
+      top: 0.7rem;
+      right: 3rem;
+    }
+
+    .editButtonWrapperWithImage {
+      position: absolute;
+      bottom: 6.3rem;
+      right: 3rem;
+    }
+
+    .deleteButtonTopRightWrapper {
       position: absolute;
       top: 0.7rem;
       right: 0.5rem;
     }
 
-    .buttonWrapperWithImage {
+    .deleteButtonWrapperWithImage {
       position: absolute;
       bottom: 6.3rem;
       right: 0.5rem;

@@ -9,6 +9,7 @@ const TableName = {
 const ColumnName = {
   BODY: 'body',
   CREATED_AT: 'created_at',
+  DELETED_AT: 'deleted_at',
   EMAIL: 'email',
   ID: 'id',
   IS_LIKE: 'is_like',
@@ -46,6 +47,7 @@ export async function up(knex) {
       .dateTime(ColumnName.UPDATED_AT)
       .notNullable()
       .defaultTo(knex.fn.now());
+    table.dateTime(ColumnName.DELETED_AT).defaultTo(null);
   });
 
   await knex.schema.createTable(TableName.COMMENTS, table => {

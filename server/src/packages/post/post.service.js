@@ -29,7 +29,9 @@ class PostService {
     const existingPost = await this._postRepository.getById(postId);
 
     if (!existingPost) {
-      throw new Error(`Post with id ${postId} not found.`);
+      const error = new Error(`Post with id ${postId} not found.`);
+      error.status = HttpCode.NOT_FOUND;
+      throw error;
     }
 
     if (existingPost.userId !== userId) {
@@ -41,6 +43,30 @@ class PostService {
     }
 
     return await this._postRepository.updateById(postId, post);
+  }
+
+  async delete(postId, userId) {
+    const existingPost = await this._postRepository.getById(postId);
+
+    if (!existingPost) {
+      const error = new Error(`Post with id ${postId} not found.`);
+      error.status = HttpCode.NOT_FOUND;
+      throw error;
+    }
+
+    if (existingPost.userId !== userId) {
+      const error = new Error(
+        'You do not have permission to delete this post.'
+      );
+      error.status = HttpCode.FORBIDDEN;
+      throw error;
+    }
+
+    if (existingPost.deletedAt) {
+      return false;
+    }
+
+    return await this._postRepository.softDeleteById(postId);
   }
 
   async setReaction(userId, { postId, isLike = true, isDislike = false }) {

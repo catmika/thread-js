@@ -42,6 +42,11 @@ class PostController extends Controller {
       url: PostsApiPath.REACT,
       [ControllerHook.HANDLER]: this.react
     });
+    this.addRoute({
+      method: HttpMethod.PATCH,
+      url: PostsApiPath.$ID,
+      [ControllerHook.HANDLER]: this.softDelete
+    });
   }
 
   getOnes = request => this.#postService.getPosts(request.query);
@@ -65,6 +70,21 @@ class PostController extends Controller {
     );
 
     return response.status(HttpCode.OK).send(post);
+  };
+
+  softDelete = async (request, response) => {
+    const updateResult = await this.#postService.delete(
+      request.params.id,
+      request.body.userId
+    );
+
+    if (updateResult.deletedPost === 0) {
+      return response.status(HttpCode.NOT_FOUND);
+    }
+
+    const deletedPost = await this.#postService.getById(request.params.id);
+
+    return response.status(HttpCode.OK).send(deletedPost);
   };
 
   react = async request => {
