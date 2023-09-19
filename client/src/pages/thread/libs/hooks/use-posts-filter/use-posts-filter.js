@@ -5,7 +5,7 @@ import { PostsFilterAction } from '~/libs/enums/enums.js';
 
 const postsFilterInitialState = {
   userId: undefined,
-  isLike: false
+  isLike: undefined
 };
 
 const postsFilterReducer = createReducer(postsFilterInitialState, builder => {
@@ -16,6 +16,7 @@ const postsFilterReducer = createReducer(postsFilterInitialState, builder => {
     PostsFilterAction.TOGGLE_SHOW_LIKED_BY_OWN_POSTS,
     (state, action) => {
       state.isLike = action.payload.isLike;
+      state.userId = action.payload.userId;
     }
   );
 });
@@ -35,11 +36,12 @@ const usePostsFilter = () => {
     });
   }, []);
 
-  const handleShowLikedByOwnPosts = useCallback(isLike => {
+  const handleShowLikedByOwnPosts = useCallback((isLike, userId) => {
     dispatchPostsFilter({
       type: PostsFilterAction.TOGGLE_SHOW_LIKED_BY_OWN_POSTS,
       payload: {
-        isLike
+        isLike,
+        userId
       }
     });
   }, []);

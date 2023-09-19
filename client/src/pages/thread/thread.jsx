@@ -62,10 +62,11 @@ const Thread = () => {
   }, [handleShowOwnPosts, showOwnPosts, userId]);
 
   const handleToggleShowLikedByOwnPosts = useCallback(() => {
-    const isLike = showLikedByOwnPosts ? true : false;
+    const isLike = showLikedByOwnPosts ? true : undefined;
+    const currentUserId = showLikedByOwnPosts ? userId : undefined;
 
-    handleShowLikedByOwnPosts(isLike);
-  }, [handleShowLikedByOwnPosts, showLikedByOwnPosts]);
+    handleShowLikedByOwnPosts(isLike, currentUserId);
+  }, [handleShowLikedByOwnPosts, showLikedByOwnPosts, userId]);
 
   useEffect(() => {
     handleToggleShowOwnPosts();
