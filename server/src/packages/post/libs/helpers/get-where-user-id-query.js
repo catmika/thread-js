@@ -1,6 +1,6 @@
-const getWhereUserIdQuery = userId => builder => {
-  if (userId) {
-    builder.where({ userId });
+const getWhereUserIdQuery = (userId, isLike) => builder => {
+  if (userId && !isLike) {
+    builder.where('posts.userId', userId);
   }
 };
 

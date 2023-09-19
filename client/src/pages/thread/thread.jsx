@@ -35,7 +35,7 @@ const Thread = () => {
     userId: state.profile.user.id
   }));
 
-  const { postsFilter, handleShownOwnPosts } = usePostsFilter();
+  const { postsFilter, handleToggleFilter } = usePostsFilter();
 
   const [sharedPostId, setSharedPostId] = useState();
 
@@ -45,6 +45,7 @@ const Thread = () => {
   });
 
   const showOwnPosts = watch(ThreadToolbarKey.SHOW_OWN_POSTS);
+  const showLikedByOwnPosts = watch(ThreadToolbarKey.SHOW_LIKED_BY_OWN_POSTS);
 
   const handlePostsLoad = useCallback(
     filtersPayload => {
@@ -53,15 +54,30 @@ const Thread = () => {
     [dispatch]
   );
 
-  const handleToggleShowOwnPosts = useCallback(() => {
-    const currentUserId = showOwnPosts ? userId : undefined;
+  const handleToggle = useCallback(() => {
+    let currentUserId;
+    let isLike;
+    let activeBoth;
 
-    handleShownOwnPosts(currentUserId);
-  }, [handleShownOwnPosts, showOwnPosts, userId]);
+    if (showOwnPosts) {
+      currentUserId = userId;
+    }
+
+    if (showLikedByOwnPosts) {
+      isLike = true;
+      currentUserId = userId;
+    }
+
+    if (showOwnPosts && showLikedByOwnPosts) {
+      activeBoth = true;
+    }
+
+    handleToggleFilter(isLike, currentUserId, activeBoth);
+  }, [handleToggleFilter, showLikedByOwnPosts, showOwnPosts, userId]);
 
   useEffect(() => {
-    handleToggleShowOwnPosts();
-  }, [showOwnPosts, handleToggleShowOwnPosts]);
+    handleToggle();
+  }, [showOwnPosts, showLikedByOwnPosts, handleToggle]);
 
   useEffect(() => {
     handlePostsLoad(postsFilter);
@@ -109,6 +125,11 @@ const Thread = () => {
             name={ThreadToolbarKey.SHOW_OWN_POSTS}
             control={control}
             label="Show only my posts"
+          />
+          <Checkbox
+            name={ThreadToolbarKey.SHOW_LIKED_BY_OWN_POSTS}
+            control={control}
+            label="Show posts liked by me"
           />
         </div>
       </form>

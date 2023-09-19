@@ -1,5 +1,5 @@
 const PostsFilterAction = {
-  TOGGLE_SHOW_OWN_POSTS: 'toggleShowOwnPosts'
+  TOGGLE: 'toggle'
 };
 
 export { PostsFilterAction };
