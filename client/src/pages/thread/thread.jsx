@@ -35,8 +35,7 @@ const Thread = () => {
     userId: state.profile.user.id
   }));
 
-  const { postsFilter, handleShowOwnPosts, handleShowLikedByOwnPosts } =
-    usePostsFilter();
+  const { postsFilter, handleToggleFilter } = usePostsFilter();
 
   const [sharedPostId, setSharedPostId] = useState();
 
@@ -55,26 +54,30 @@ const Thread = () => {
     [dispatch]
   );
 
-  const handleToggleShowOwnPosts = useCallback(() => {
-    const currentUserId = showOwnPosts ? userId : undefined;
+  const handleToggle = useCallback(() => {
+    let currentUserId;
+    let isLike;
+    let activeBoth;
 
-    handleShowOwnPosts(currentUserId);
-  }, [handleShowOwnPosts, showOwnPosts, userId]);
+    if (showOwnPosts) {
+      currentUserId = userId;
+    }
 
-  const handleToggleShowLikedByOwnPosts = useCallback(() => {
-    const isLike = showLikedByOwnPosts ? true : undefined;
-    const currentUserId = showLikedByOwnPosts ? userId : undefined;
+    if (showLikedByOwnPosts) {
+      isLike = true;
+      currentUserId = userId;
+    }
 
-    handleShowLikedByOwnPosts(isLike, currentUserId);
-  }, [handleShowLikedByOwnPosts, showLikedByOwnPosts, userId]);
+    if (showOwnPosts && showLikedByOwnPosts) {
+      activeBoth = true;
+    }
+
+    handleToggleFilter(isLike, currentUserId, activeBoth);
+  }, [handleToggleFilter, showLikedByOwnPosts, showOwnPosts, userId]);
 
   useEffect(() => {
-    handleToggleShowOwnPosts();
-  }, [showOwnPosts, handleToggleShowOwnPosts]);
-
-  useEffect(() => {
-    handleToggleShowLikedByOwnPosts();
-  }, [handleShowLikedByOwnPosts, handleToggleShowLikedByOwnPosts]);
+    handleToggle();
+  }, [showOwnPosts, showLikedByOwnPosts, handleToggle]);
 
   useEffect(() => {
     handlePostsLoad(postsFilter);

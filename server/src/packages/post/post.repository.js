@@ -12,7 +12,7 @@ class PostRepository extends AbstractRepository {
   }
 
   getPosts(filter) {
-    const { from: offset, count: limit, userId, isLike } = filter;
+    const { from: offset, count: limit, userId, isLike, activeBoth } = filter;
 
     const query = this.model
       .query()
@@ -31,9 +31,17 @@ class PostRepository extends AbstractRepository {
 
     if (isLike && userId) {
       query
-        .join('postReactions', 'posts.id', 'postReactions.postId')
-        .where('postReactions.userId', userId)
-        .where('postReactions.isLike', isLike);
+        .join('postReactions as pr1', 'posts.id', 'pr1.postId') // Alias as pr1
+        .where('pr1.userId', userId)
+        .where('pr1.isLike', isLike);
+    }
+
+    if (activeBoth) {
+      query
+        .where('posts.userId', userId)
+        .join('postReactions as pr2', 'posts.id', 'pr2.postId') // Alias as pr2
+        .where('pr2.userId', userId)
+        .where('pr2.isLike', isLike);
     }
 
     return query;
